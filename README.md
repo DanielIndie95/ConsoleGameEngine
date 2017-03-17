@@ -1,5 +1,5 @@
-# ConsoleGameEngine
-a simple engine for writing console games \n
-inspired by FlashPunk \n
-Pull Requests are welcomed :) \n
+# ConsoleGameEngine 
+a simple engine for writing console games <br />
+inspired by FlashPunk <br />
+Pull Requests are welcomed :) <br />
 Still a WIP
