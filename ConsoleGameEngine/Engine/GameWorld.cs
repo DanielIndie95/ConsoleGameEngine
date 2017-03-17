@@ -30,9 +30,10 @@ namespace ConsoleGameEngine.Engine
 
         public Entity Add(Graphics graphics, int layer = 0, int x = 0, int y = 0)
         {
-            Entity graphicEntity = new Entity(x, y, graphics);
-            graphicEntity.Layer = layer;
-
+            Entity graphicEntity = new Entity(x, y, graphics)
+            {
+                Layer = layer
+            };
             return Add(graphicEntity);
         }
 

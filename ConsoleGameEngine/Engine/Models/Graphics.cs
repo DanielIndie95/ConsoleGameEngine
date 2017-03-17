@@ -6,6 +6,8 @@ namespace ConsoleGameEngine.Engine.Models
     public class Graphics
     {
         public bool Visible { get; set; } = true;
+        public int Width => GraphicData.GetLength(1);
+        public int Height => GraphicData.GetLength(0);
 
         protected PixelData[,] GraphicData;
         
