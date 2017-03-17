@@ -25,7 +25,7 @@ namespace ConsoleGameEngine.Engine.Models.Masks
                     var pixel = graphics.Graphic[row, col];
                     if (pixel.Character != IGNORE)
                     {
-                        points.Add(new Point(row, col));
+                        points.Add(new Point(col, row));
                     }
                 }
             }

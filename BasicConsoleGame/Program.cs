@@ -18,7 +18,7 @@ namespace ConsoleGameEngine
     {
         SpecialGameWorld world;
 
-        public SpecialGameEngine() : base(20, 20, 50)
+        public SpecialGameEngine() : base(30, 20, 50)
         {
         }
 
@@ -39,6 +39,7 @@ namespace ConsoleGameEngine
         public override void Begin()
         {
             base.Begin();
+            string text = "hello";
             string frame1 = @" :)\n=|=\n| |";
             string frame2 = @" :(\n^|^\n| |";
             string frame3 = @" :|\n)|(\n| -";
@@ -48,10 +49,11 @@ namespace ConsoleGameEngine
 
             AtlasImage atlas = new AtlasImage(anim, 3, ConsoleColor.White, false);
             Add(new BasicEntity(4, 6, 1, atlas));
-            Add(new BorderEntity(GameEngine.Engine.Width, GameEngine.Engine.Height, ConsoleColor.White)
+            Add(new BorderEntity(GameEngine.Engine.Width - 8, GameEngine.Engine.Height, ConsoleColor.White)
             {
                 Layer = 3
             });
+            Add(new Text(text, 1, ConsoleColor.Red), GameEngine.World.Layers, 24, 3);
         }
 
         public override void Update(GameInput input)

@@ -12,7 +12,7 @@ namespace ConsoleGameEngine.Engine.Models.graphics
 
         private PixelData[,] GetBorder(int width, int height, ConsoleColor color, char blank)
         {
-            PixelData[,] border = new PixelData[width, height];
+            PixelData[,] border = new PixelData[height, width];
             char sign = blank;
             for (int row = 0; row < height; row++)
             {

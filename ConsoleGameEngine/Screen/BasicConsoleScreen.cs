@@ -40,7 +40,7 @@ namespace ConsoleGameEngine
 
         private bool PixelOutOfBound(Pixel pixel)
         {
-            return pixel.Position.X < 0 || pixel.Position.X >= _height || pixel.Position.Y < 0 || pixel.Position.Y >= _width;
+            return pixel.Position.X < 0 || pixel.Position.X >= _width || pixel.Position.Y < 0 || pixel.Position.Y >= _height;
         }
 
         public virtual void ClearScreen()

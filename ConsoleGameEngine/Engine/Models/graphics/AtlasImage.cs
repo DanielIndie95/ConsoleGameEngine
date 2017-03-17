@@ -15,7 +15,7 @@ namespace ConsoleGameEngine.Engine.Models.graphics
         }
         public AtlasImage(string atlas, int frameWidth, int frameHeight, int fps, ConsoleColor color, bool start) : base(fps, false)
         {
-            char[,] atlasArr = GetCharArrayFromString(atlas);
+            char[,] atlasArr = Utils.GetCharArrayFromNewLinesString(atlas);
             ChangeGraphics(ConvertCharArrayToGraphics(atlasArr, frameWidth, frameHeight, color));
             if (start)
             {
@@ -24,7 +24,7 @@ namespace ConsoleGameEngine.Engine.Models.graphics
         }
         public AtlasImage(string[] atlas, int frameWidth, int frameHeight, int fps, ConsoleColor color, bool start) : base(fps, false)
         {
-            char[,] atlasArr = GetCharArrayFromStrings(atlas);
+            char[,] atlasArr = Utils.GetCharArrayFromStrings(atlas);
             PixelData[][,] graphics = ConvertCharArrayToGraphics(atlasArr, frameWidth, frameHeight, color);
 
             ChangeGraphics(graphics);
@@ -42,32 +42,6 @@ namespace ConsoleGameEngine.Engine.Models.graphics
             }
         }
 
-
-        private char[,] GetCharArrayFromString(string atlas)
-        {
-            string[] byNewLine = atlas.Split(new[] { "\\n" }, StringSplitOptions.RemoveEmptyEntries);
-            return GetCharArrayFromStrings(byNewLine);
-        }
-        private char[,] GetCharArrayFromStrings(string[] atlas)
-        {
-            char[,] atlasArr = new char[atlas.Length, atlas[0].Length];
-            for (int row = 0; row < atlas.Length; row++)
-            {
-                for (int col = 0; col < atlas[row].Length; col++)
-                {
-                    try
-                    {
-                        atlasArr[row, col] = atlas[row][col];
-                    }
-                    catch (IndexOutOfRangeException e)
-                    {
-                        throw new Exception("The string was not formed as a 2d rectangle, pls insert a valid string", e);
-                    }
-                }
-            }
-            return atlasArr;
-        }
-
         private PixelData[][,] ConvertCharArrayToGraphics(char[,] atlas, int frameWidth, int frameHeight, ConsoleColor color)
         {
             int framesCount = (atlas.GetLength(0) / frameHeight) * (int)Math.Ceiling(atlas.GetLength(1) / (double)frameWidth);
@@ -77,8 +51,8 @@ namespace ConsoleGameEngine.Engine.Models.graphics
             {
                 for (int x = 0; x < atlas.GetLength(1); x += frameWidth)
                 {
-                    char[,] frame = GetRectangle(atlas, x, y, frameWidth, frameHeight);
-                    PixelData[,] pixelsFrame = GetPixelsFrameFromRectangle(frame, color);
+                    char[,] frame = Utils.GetRectangle(atlas, x, y, frameWidth, frameHeight);
+                    PixelData[,] pixelsFrame = Utils.GetPixelsBufferFromCharsBuffer(frame, color);
                     frames[frameIndex] = pixelsFrame;
                     frameIndex++;
                 }
@@ -92,37 +66,16 @@ namespace ConsoleGameEngine.Engine.Models.graphics
 
             for (int frame = 0; frame < atlas.Length; frame++)
             {
-                char[,] frameArr = GetCharArrayFromString(atlas[frame]);
-                PixelData[,] pixelsFrame = GetPixelsFrameFromRectangle(frameArr, color);
+                char[,] frameArr = Utils.GetCharArrayFromNewLinesString(atlas[frame]);
+                PixelData[,] pixelsFrame = Utils.GetPixelsBufferFromCharsBuffer(frameArr, color);
                 frames[frame] = pixelsFrame;
             }
             return frames;
         }
 
-        private PixelData[,] GetPixelsFrameFromRectangle(char[,] frame, ConsoleColor color)
-        {
-            PixelData[,] data = new PixelData[frame.GetLength(0), frame.GetLength(1)];
-            for (int y = 0; y < frame.GetLength(0); y++)
-            {
-                for (int x = 0; x < frame.GetLength(1); x++)
-                {
-                    data[y, x] = new PixelData(frame[y, x], color);
-                }
-            }
-            return data;
-        }
 
-        private char[,] GetRectangle(char[,] buffer, int x, int y, int frameWidth, int frameHeight)
-        {
-            char[,] rectangle = new char[frameHeight, frameWidth];
 
-            for (int top = y; top < y + frameHeight && top < buffer.GetLength(0); top++)
-                for (int left = x; left < x + frameWidth && left < buffer.GetLength(1); left++)
-                {
-                    rectangle[top - y, left - x] = buffer[top, left];
-                }
-            return rectangle;
-        }
+
 
 
     }
