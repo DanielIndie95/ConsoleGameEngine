@@ -1,6 +1,4 @@
-﻿using System;
-using ConsoleGameEngine.Engine.Models;
-using System.Threading;
+﻿using ConsoleGameEngine.Engine.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +6,8 @@ namespace ConsoleGameEngine.Engine
 {
     public abstract class GameWorld : IGameWorld
     {
+        public int Layers => _entities.Max(en => en.Layer);
+
         private List<Entity> _entities;
 
         public GameWorld()
@@ -25,6 +25,7 @@ namespace ConsoleGameEngine.Engine
         {
             _entities.Add(entity);
             entity.TargetRender = GameEngine.Screen;
+            entity.Added();
             return entity;
         }
 
@@ -35,6 +36,16 @@ namespace ConsoleGameEngine.Engine
                 Layer = layer
             };
             return Add(graphicEntity);
+        }
+
+        public void SendToFront(Entity entity)
+        {
+            entity.Layer = 0;
+        }
+
+        public void SendToBack(Entity entity)
+        {
+            entity.Layer = Layers;
         }
 
         public virtual void Draw()

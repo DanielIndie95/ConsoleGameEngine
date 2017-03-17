@@ -1,4 +1,5 @@
 ﻿using ConsoleGameEngine.Engine.Models.Masks;
+using ConsoleGameEngine.Models;
 
 namespace ConsoleGameEngine.Engine.Models
 {
@@ -27,13 +28,22 @@ namespace ConsoleGameEngine.Engine.Models
 
         }
 
-        public bool Collide(Mask mask)
+        public bool Collide(Mask other)
         {
-            if (!mask.Parent.Collidable || mask.Parent.Collidable)
+            if (other == null || !other.Parent.Collidable || !Parent.Collidable)
                 return false;
-            return CollideWithMask(mask) || mask.CollideWithMask(this);
+            return CollideWithMask(other) && other.CollideWithMask(this);
         }
 
-        protected abstract bool CollideWithMask(Mask mask);        
+        public bool Collide(Point point)
+        {
+            if (!Parent.Collidable)
+                return false;
+            return CollideWithPoint(point);
+        }
+
+        protected abstract bool CollideWithMask(Mask mask);
+        protected abstract bool CollideWithPoint(Point point);
+
     }
 }

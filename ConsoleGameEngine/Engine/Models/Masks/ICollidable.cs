@@ -10,7 +10,8 @@ namespace ConsoleGameEngine.Engine.Models.Masks
         int MaskY { get; set; }
         int MaskWidth { get; set; }
         int MaskHeight { get; set; }
-
+        int X { get; set; }
+        int Y { get; set; }
         bool Collidable { get; set; }
 
     }

@@ -2,6 +2,7 @@
 using System;
 using ConsoleGameEngine.Engine.Models;
 using ConsoleGameEngine.Engine.Models.graphics;
+using ConsoleGameEngine.Engine.Models.Entities;
 
 namespace ConsoleGameEngine
 {
@@ -17,7 +18,7 @@ namespace ConsoleGameEngine
     {
         SpecialGameWorld world;
 
-        public SpecialGameEngine() : base(20, 20, 30)
+        public SpecialGameEngine() : base(20, 20, 50)
         {
         }
 
@@ -38,16 +39,19 @@ namespace ConsoleGameEngine
         public override void Begin()
         {
             base.Begin();
-            string frame1 = @"  :)  \n =|= \n | | ";
-            string frame2 = @"  :(  \n ^|^ \n | | ";
-            string frame3 = @"  :|  \n )|( \n | - ";
+            string frame1 = @" :)\n=|=\n| |";
+            string frame2 = @" :(\n^|^\n| |";
+            string frame3 = @" :|\n)|(\n| -";
             string[] anim = {
               frame1 , frame2 , frame3
             };
 
             AtlasImage atlas = new AtlasImage(anim, 3, ConsoleColor.White, false);
             Add(new BasicEntity(4, 6, 1, atlas));
-            Add(new Border(GameEngine.Engine.Width, GameEngine.Engine.Height, ConsoleColor.White), 3);
+            Add(new BorderEntity(GameEngine.Engine.Width, GameEngine.Engine.Height, ConsoleColor.White)
+            {
+                Layer = 3
+            });
         }
 
         public override void Update(GameInput input)
@@ -65,24 +69,26 @@ namespace ConsoleGameEngine
         public BasicEntity(int x, int y, int layer = 0, AtlasImage graphics = null) : base(x, y, graphics)
         {
             Layer = layer;
+            SetHitBoxToGrahpics();
         }
 
         public override void Update(GameInput input)
         {
             base.Update(input);
+            int nextX = X, nextY = Y;
             switch (input.Key)
             {
                 case ConsoleKey.W:
-                    Y--;
+                    nextY = Y - 1;
                     break;
                 case ConsoleKey.S:
-                    Y++;
+                    nextY = Y + 1;
                     break;
                 case ConsoleKey.A:
-                    X--;
+                    nextX = X - 1;
                     break;
                 case ConsoleKey.D:
-                    X++;
+                    nextX = X + 1;
                     break;
                 case ConsoleKey.K:
                     {
@@ -97,7 +103,11 @@ namespace ConsoleGameEngine
                         }
                         break;
                     }
-
+            }
+            if (!Collided(nextX, nextY))
+            {
+                X = nextX;
+                Y = nextY;
             }
         }
     }

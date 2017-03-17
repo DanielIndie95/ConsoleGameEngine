@@ -10,7 +10,7 @@ namespace ConsoleGameEngine.Engine.Models
     {
         public IDrawableScreen TargetRender { private get; set; }
 
-        public Graphics Graphics;
+        public Graphics Graphics { get; protected set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int Layer { get; set; }
@@ -21,25 +21,34 @@ namespace ConsoleGameEngine.Engine.Models
         public int MaskWidth { get; set; }
         public int MaskHeight { get; set; }
         public bool Collidable { get; set; }
-        private Mask _mask;
+        protected Mask Mask;
 
         public Entity(int x = 0, int y = 0, Graphics graphics = null, Mask mask = null)
         {
-            MaskX = X = x;
-            MaskY = Y = y;
+            X = x;
+            Y = y;
+            MaskX = MaskY = 0;
             Graphics = graphics;
-            MaskWidth = graphics.Width;
-            MaskHeight = graphics.Height;
+            if (graphics != null)
+            {
+                MaskWidth = graphics.Width;
+                MaskHeight = graphics.Height;
+            }
             Collidable = true;
-            _mask = mask;
+            Mask = mask;
+        }
+
+        public virtual void Added()
+        {
+
         }
 
         public bool Collided(string type)
         {
-            if (Collidable && _mask != null)
+            if (Collidable && Mask != null)
                 foreach (Entity entity in GameEngine.World.GetEntities(type))
                 {
-                    bool collide = _mask.Collide(entity._mask);
+                    bool collide = Mask.Collide(entity.Mask);
                     if (collide)
                         return true;
                 }
@@ -47,35 +56,98 @@ namespace ConsoleGameEngine.Engine.Models
         }
         public bool Collided()
         {
-            if (Collidable && _mask != null)
+            if (Collidable && Mask != null)
                 foreach (Entity entity in GameEngine.World.GetEntities())
                 {
-                    bool collide = _mask.Collide(entity._mask);
+                    bool collide = Mask.Collide(entity.Mask);
                     if (collide)
                         return true;
                 }
             return false;
         }
 
-        public IEnumerable<Entity> Collide()
+        protected void SetHitBoxToGrahpics()
         {
-            if (Collidable && _mask != null)
+            Mask = new Hitbox(this);
+        }
+
+        public bool Collided(int virtualX, int virtualY)
+        {
+            int previousX = X, previousY = Y;
+            X = virtualX;
+            Y = virtualY;
+            if (Collidable && Mask != null)
                 foreach (Entity entity in GameEngine.World.GetEntities())
                 {
-                    bool collide = _mask.Collide(entity._mask);
+                    if (entity != this)
+                    {
+                        bool collide = Mask.Collide(entity.Mask);
+                        if (collide)
+                        {
+                            X = previousX;
+                            Y = previousY;
+                            return true;
+                        }
+                    }
+                }
+            X = previousX;
+            Y = previousY;
+            return false;
+        }
+
+        public IEnumerable<Entity> Collide()
+        {
+            if (Collidable && Mask != null)
+                foreach (Entity entity in GameEngine.World.GetEntities())
+                {
+                    bool collide = Mask.Collide(entity.Mask);
                     if (collide)
                         yield return entity;
                 }
         }
         public IEnumerable<Entity> Collide(string type)
         {
-            if (Collidable && _mask != null)
+            if (Collidable && Mask != null)
                 foreach (Entity entity in GameEngine.World.GetEntities(type))
                 {
-                    bool collide = _mask.Collide(entity._mask);
+                    bool collide = Mask.Collide(entity.Mask);
                     if (collide)
                         yield return entity;
                 }
+        }
+
+        public IEnumerable<Entity> Collide(int virtualX, int virtualY)
+        {
+            int previousX = MaskX, previousY = MaskY;
+            MaskX = virtualX;
+            MaskY = virtualY;
+            if (Collidable && Mask != null)
+                foreach (Entity entity in GameEngine.World.GetEntities())
+                {
+                    bool collide = Mask.Collide(entity.Mask);
+                    if (collide)
+                        yield return entity;
+                }
+
+            MaskX = previousX;
+            MaskY = previousY;
+        }
+
+        public IEnumerable<Entity> Collide(string type, int virtualX, int virtualY)
+        {
+            int previousX = MaskX, previousY = MaskY;
+            MaskX = virtualX;
+            MaskY = virtualY;
+            if (Collidable && Mask != null)
+                foreach (Entity entity in GameEngine.World.GetEntities(type))
+                {
+                    bool collide = Mask.Collide(entity.Mask);
+                    if (collide)
+                        yield return entity;
+                }
+
+            MaskX = previousX;
+            MaskY = previousY;
         }
 
         public virtual void Update(GameInput input)

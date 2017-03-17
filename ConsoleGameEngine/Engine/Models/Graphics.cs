@@ -10,6 +10,8 @@ namespace ConsoleGameEngine.Engine.Models
         public int Height => GraphicData.GetLength(0);
 
         protected PixelData[,] GraphicData;
+
+        public PixelData[,] Graphic => GraphicData;
         
         public Graphics()
         {
