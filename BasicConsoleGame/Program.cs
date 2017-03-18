@@ -3,6 +3,7 @@ using System;
 using ConsoleGameEngine.Engine.Models;
 using ConsoleGameEngine.Engine.Models.GraphicsModels;
 using ConsoleGameEngine.Engine.Models.Entities;
+using System.IO;
 
 namespace ConsoleGameEngine
 {
@@ -47,13 +48,14 @@ namespace ConsoleGameEngine
               frame1 , frame2 , frame3
             };
 
-            AtlasImage atlas = new AtlasImage(anim, 3, ConsoleColor.White, false);
+            /*AtlasImage atlas = new AtlasImage(anim, 3, ConsoleColor.White, false);
             Add(new BasicEntity(4, 6, 1, atlas));
             Add(new BorderEntity(GameEngine.Engine.Width - 8, GameEngine.Engine.Height, ConsoleColor.White)
             {
                 Layer = 3
             });
-            Add(new Text(text, 1, ConsoleColor.Red), GameEngine.World.Layers, 24, 3);
+            Add(new Text(text, 1, ConsoleColor.Red), GameEngine.World.Layers, 24, 3);*/
+            Add(new AsciiImage("C:\\Users\\DanielEdry\\Desktop\\testascii.txt"));
         }
 
         public override void Update(GameInput input)
