@@ -19,7 +19,7 @@ namespace ConsoleGameEngine
     {
         SpecialGameWorld world;
 
-        public SpecialGameEngine() : base(30, 20, 30)
+        public SpecialGameEngine() : base(30, 20, 30 , false)
         {
         }
 

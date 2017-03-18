@@ -31,9 +31,16 @@ namespace ConsoleGameEngine.Engine
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        public GameEngine(int width, int height, int fps)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="fps"></param>
+        /// <param name="blackAndWhiteMode">black and white is much faster</param>
+        public GameEngine(int width, int height, int fps, bool blackAndWhiteMode = true)
         {
-            Screen = new BasicConsoleScreen(width, height);
+            Screen = new BasicConsoleScreen(width, height, blackAndWhiteMode);
             Width = width;
             Height = height;
 
@@ -78,7 +85,7 @@ namespace ConsoleGameEngine.Engine
             {
                 key = Console.ReadKey(true);
             }
-            
+
             GameInput input = hadKey ? new GameInput(key) : GameInput.None;
             return input;
         }

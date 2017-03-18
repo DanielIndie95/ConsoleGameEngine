@@ -10,8 +10,15 @@ namespace ConsoleGameEngine
         private int _height;
         private int _width;
         protected PixelData DefaultEntity { get; set; }
+        Action _drawFunc;
 
-        public BasicConsoleScreen(int width, int height)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="blackAndWhiteMode">Black and white is much faster</param>
+        public BasicConsoleScreen(int width, int height, bool blackAndWhiteMode = true)
         {
             PixelsScreen = new PixelData[height, width];
             _height = height;
@@ -19,16 +26,45 @@ namespace ConsoleGameEngine
             DefaultEntity = new PixelData(' ', ConsoleColor.Gray);
             InitiallizeScreenWithDefaults();
             Console.CursorVisible = false;
+            if (blackAndWhiteMode)
+                _drawFunc = DrawBlackAndWhite;
+            else
+                _drawFunc = DrawColor;
         }
 
         public virtual void Draw()
         {
+            _drawFunc();
+        }
+
+        public void DrawBlackAndWhite()
+        {
+            string buffer = "";
+            for (int y = 0; y < _height; y++)
+            {
+                for (int x = 0; x < _width; x++)
+                {
+                    buffer += PixelsScreen[y, x].Character;
+                }
+                buffer += Environment.NewLine;
+            }
+            Console.SetCursorPosition(0, 0);
+            Console.Write(buffer);
+        }
+
+        /// <summary>
+        /// This is much slower
+        /// </summary>
+        public void DrawColor()
+        {
+            Console.SetCursorPosition(0, 0);
             for (int y = 0; y < _height; y++)
             {
                 for (int x = 0; x < _width; x++)
                 {
                     DrawPixel(PixelsScreen[y, x], x, y);
                 }
+                Console.Write(Environment.NewLine);
             }
         }
 
@@ -66,8 +102,6 @@ namespace ConsoleGameEngine
         {
             var oldForColor = Console.ForegroundColor;
             var oldBackColor = Console.BackgroundColor;
-
-            Console.SetCursorPosition(x, y);
 
             if (pixel.IsForground)
                 Console.ForegroundColor = pixel.Color;
