@@ -55,7 +55,7 @@ namespace ConsoleGameEngine
                 Layer = 3
             });
             Add(new Text(text, 1, ConsoleColor.Red), GameEngine.World.Layers, 24, 3);*/
-            Add(new AsciiImage("C:\\Users\\DanielEdry\\Desktop\\testascii.txt"));
+            
         }
 
         public override void Update(GameInput input)

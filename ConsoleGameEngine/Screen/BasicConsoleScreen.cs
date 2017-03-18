@@ -58,7 +58,10 @@ namespace ConsoleGameEngine
         {
             var oldColor = Console.ForegroundColor;
             Console.SetCursorPosition(pixel.Position.X, pixel.Position.Y);
-            Console.ForegroundColor = pixel.Color;
+            if (pixel.IsForground)
+                Console.ForegroundColor = pixel.Color;
+            else
+                Console.BackgroundColor = pixel.Color;
             Console.Write(pixel.Character);
             Console.ForegroundColor = oldColor;
         }
@@ -76,7 +79,7 @@ namespace ConsoleGameEngine
                 {
                     PixelData data = rectangle[y - top, x - left];
 
-                    SetPixel(new Pixel(data.Character, new Point(x, y), data.Color));
+                    SetPixel(new Pixel(data.Character, new Point(x, y), data.Color, data.IsForground));
                 }
             }
         }
