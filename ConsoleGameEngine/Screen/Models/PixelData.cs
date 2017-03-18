@@ -2,7 +2,7 @@
 
 namespace ConsoleGameEngine.Screen.Models
 {
-    public struct PixelData
+    public class PixelData
     {
         public ConsoleColor Color { get; set; }
         public bool IsForground { get; set; }

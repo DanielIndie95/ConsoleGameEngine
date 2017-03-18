@@ -16,11 +16,6 @@ namespace ConsoleGameEngine.Engine
 
         }
 
-        public virtual void Begin()
-        {
-        }
-
-
         public Entity Add(Entity entity)
         {
             _entities.Add(entity);
@@ -48,30 +43,6 @@ namespace ConsoleGameEngine.Engine
             entity.Layer = Layers;
         }
 
-        public virtual void Draw()
-        {
-
-            foreach (List<Entity> layer in EntitiesByLayer)
-            {
-                foreach (Entity entity in layer)
-                {
-                    entity.Draw();
-                }
-            }
-        }
-
-        public virtual void Update(GameInput input)
-        {
-            foreach (List<Entity> layer in EntitiesByLayer)
-            {
-                foreach (Entity entity in layer)
-                {
-                    if (entity.Active)
-                        entity.Update(input);
-                }
-            }
-        }
-
         public IEnumerable<Entity> GetEntities()
         {
             return _entities;
@@ -93,6 +64,34 @@ namespace ConsoleGameEngine.Engine
             {
                 if (entity.Type == type)
                     yield return entity;
+            }
+        }
+
+        public virtual void Begin()
+        {
+        }
+
+        public virtual void Draw()
+        {
+
+            foreach (List<Entity> layer in EntitiesByLayer)
+            {
+                foreach (Entity entity in layer)
+                {
+                    entity.Draw();
+                }
+            }
+        }
+
+        public virtual void Update(GameInput input)
+        {
+            foreach (List<Entity> layer in EntitiesByLayer)
+            {
+                foreach (Entity entity in layer)
+                {
+                    if (entity.Active)
+                        entity.Update(input);
+                }
             }
         }
 

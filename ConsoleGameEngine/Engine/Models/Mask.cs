@@ -51,7 +51,7 @@ namespace ConsoleGameEngine.Engine.Models
             {
                 return OtherCollisionFunc(this);
             }
-            return _collisionAlgorithemOptions[GetType()](other);
+            return _collisionAlgorithemOptions[typeof(Mask)](other);
         }
 
         public bool Collide(Point point)

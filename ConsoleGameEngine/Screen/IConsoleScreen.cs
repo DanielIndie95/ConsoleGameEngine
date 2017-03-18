@@ -5,7 +5,8 @@ namespace ConsoleGameEngine
 {
     public interface IDrawableScreen
     {
-        void SetPixel(Pixel pixel);
+        void SetPixel(PixelData pixel, int x, int y);
+        void SetPixel(PixelData pixel, Point position);
 
         void SetRectangle(int left, int top, PixelData[,] rectangle);
 
