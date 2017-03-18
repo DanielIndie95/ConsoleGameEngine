@@ -20,6 +20,8 @@ namespace ConsoleGameEngine.Engine.Models
         public int MaskY { get; set; }
         public int MaskWidth { get; set; }
         public int MaskHeight { get; set; }
+        public int Width => Graphics.Width;
+        public int Height => Graphics.Height;
         public bool Collidable { get; set; }
         protected Mask Mask;
 
@@ -68,7 +70,8 @@ namespace ConsoleGameEngine.Engine.Models
 
         protected void SetHitBoxToGrahpics()
         {
-            Mask = new Hitbox(this);
+            Mask = new Hitbox(Width, Height);
+            Mask.AssingTo(this);
         }
 
         public bool Collided(int virtualX, int virtualY)

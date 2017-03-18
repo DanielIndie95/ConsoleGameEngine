@@ -1,7 +1,7 @@
 ﻿using ConsoleGameEngine.Screen.Models;
 using System.Threading;
 
-namespace ConsoleGameEngine.Engine.Models.graphics
+namespace ConsoleGameEngine.Engine.Models.GraphicsModels
 {
     public abstract class Animation : Graphics
     {

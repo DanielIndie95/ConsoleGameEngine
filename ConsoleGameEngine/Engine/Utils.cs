@@ -32,7 +32,11 @@ namespace ConsoleGameEngine.Engine
         }
         public static char[,] GetCharArrayFromNewLinesString(string atlas)
         {
-            string[] byNewLine = atlas.Split(new[] { "\\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            return GetCharArrayFromNewLinesString(atlas, "\\n", "\n");
+        }
+        public static char[,] GetCharArrayFromNewLinesString(string atlas, params string[] rowSeperators)
+        {
+            string[] byNewLine = atlas.Split(rowSeperators, StringSplitOptions.RemoveEmptyEntries);
             return GetCharArrayFromStrings(byNewLine);
         }
         public static char[,] GetCharArrayFromStrings(string[] atlas)

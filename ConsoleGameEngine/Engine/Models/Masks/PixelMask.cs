@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using ConsoleGameEngine.Models;
 using System.Linq;
 
@@ -13,6 +11,8 @@ namespace ConsoleGameEngine.Engine.Models.Masks
         public PixelMask(Entity entity) : base(entity)
         {
             _collisionPoints = GetCollisionPoints(entity.Graphics);
+            AddCollisionOption(typeof(Hitbox), CollideWithMask);
+            AddCollisionOption(typeof(PixelMask), CollideWithPixelMask);
         }
 
         private List<Point> GetCollisionPoints(Graphics graphics)
@@ -41,6 +41,12 @@ namespace ConsoleGameEngine.Engine.Models.Masks
                     return true;
             }
             return false;
+        }
+
+        private bool CollideWithPixelMask(Mask mask)
+        {
+            PixelMask other = mask as PixelMask;
+            return _collisionPoints.Intersect(other._collisionPoints).Count() != 0;
         }
 
         protected override bool CollideWithPoint(Point point)

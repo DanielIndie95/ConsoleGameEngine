@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ConsoleGameEngine.Models;
+﻿using ConsoleGameEngine.Models;
 
 namespace ConsoleGameEngine.Engine.Models.Masks
 {
@@ -9,26 +6,44 @@ namespace ConsoleGameEngine.Engine.Models.Masks
     {
         private int _width;
         private int _height;
+        private int _x;
+        private int _y;
 
-        public Hitbox(ICollidable entity) : base(entity)
+        public Hitbox(int width = 1, int height = 1, int x = 0, int y = 0) : base()
         {
-            _width = entity.MaskWidth;
-            _height = entity.MaskHeight;
+            _width = width;
+            _height = height;
+            _x = x;
+            _y = y;
+            AddCollisionOption(GetType(), CollideWithHitBox);
         }
-       
-        protected override bool CollideWithMask(Mask other)
+
+        public override void Update()
         {
-            return Parent.X + Parent.MaskX + _width > other.Parent.MaskX + other.Parent.X
-                && Parent.Y + Parent.MaskY + _height > other.Parent.MaskY + other.Parent.Y
-                && Parent.X + Parent.MaskX < other.Parent.MaskX + other.Parent.X + other.Parent.MaskWidth
-                && Parent.Y + Parent.MaskY < other.Parent.MaskY + other.Parent.Y + other.Parent.MaskHeight;
+            base.Update();
+            if (Parent != null)
+            {
+                Parent.MaskHeight = _height;
+                Parent.MaskWidth = _width;
+                Parent.MaskX = _x;
+                Parent.MaskY = _y;
+            }
+        }
+
+
+        protected virtual bool CollideWithHitBox(Mask mask)
+        {
+            Hitbox other = mask as Hitbox;
+            return Parent.X + _x + _width > other._x + other.Parent.X
+                && Parent.Y + _y + _height > other._y + other.Parent.Y
+                && Parent.X + _x < other._x + other.Parent.X + other._width
+                && Parent.Y + _y < other._y + other.Parent.Y + other._height;
         }
 
         protected override bool CollideWithPoint(Point point)
         {
-            return Parent.X + Parent.MaskX <= point.X && Parent.X + Parent.MaskX + _width > point.X
-                && Parent.Y + Parent.MaskY <= point.Y && Parent.Y + Parent.MaskY + _height > point.Y;
-
+            return Parent.X + _x <= point.X && Parent.X + _x + _width > point.X
+                && Parent.Y + _y <= point.Y && Parent.Y + _y + _height > point.Y;
         }
     }
 }

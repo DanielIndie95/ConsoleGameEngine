@@ -1,7 +1,7 @@
 ﻿using ConsoleGameEngine.Engine;
 using System;
 using ConsoleGameEngine.Engine.Models;
-using ConsoleGameEngine.Engine.Models.graphics;
+using ConsoleGameEngine.Engine.Models.GraphicsModels;
 using ConsoleGameEngine.Engine.Models.Entities;
 
 namespace ConsoleGameEngine

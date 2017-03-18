@@ -1,4 +1,4 @@
-﻿using ConsoleGameEngine.Engine.Models.graphics;
+﻿using ConsoleGameEngine.Engine.Models.GraphicsModels;
 using ConsoleGameEngine.Engine.Models.Masks;
 using System;
 

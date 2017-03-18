@@ -1,7 +1,7 @@
 ﻿using ConsoleGameEngine.Screen.Models;
 using System;
 
-namespace ConsoleGameEngine.Engine.Models
+namespace ConsoleGameEngine.Engine.Models.GraphicsModels
 {
     public class Sign : Graphics
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleGameEngine.Engine.Models.graphics
+namespace ConsoleGameEngine.Engine.Models.GraphicsModels
 {
     public class Text : Graphics
     {

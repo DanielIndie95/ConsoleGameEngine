@@ -1,7 +1,7 @@
 ﻿using System;
 using ConsoleGameEngine.Screen.Models;
 
-namespace ConsoleGameEngine.Engine.Models.graphics
+namespace ConsoleGameEngine.Engine.Models.GraphicsModels
 {
     public class Border : Graphics
     {
