@@ -1,5 +1,5 @@
-﻿using ConsoleGameEngine.Screen.Models;
-using System;
+﻿using ConsoleGameEngine.Screen;
+using ConsoleGameEngine.Screen.Models;
 
 namespace ConsoleGameEngine.Engine.Models
 {

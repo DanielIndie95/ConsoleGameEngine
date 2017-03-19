@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using ConsoleGameEngine.Models;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ConsoleGameEngine.Screen.Models;
 
 namespace ConsoleGameEngine.Engine.Models.Masks
 {
     public class PixelMask : Mask
     {
-        List<Point> _collisionPoints;
+        readonly List<Point> _collisionPoints;
         const char IGNORE = ' ';
         public PixelMask(Entity entity) : base(entity)
         {
@@ -45,7 +46,9 @@ namespace ConsoleGameEngine.Engine.Models.Masks
 
         private bool CollideWithPixelMask(Mask mask)
         {
-            PixelMask other = mask as PixelMask;
+            var other = mask as PixelMask;
+            if (other == null)
+                throw new Exception("Mask was not in the correct type");
             return _collisionPoints.Intersect(other._collisionPoints).Count() != 0;
         }
 

@@ -7,7 +7,7 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
     {
         public Sign(char sign, ConsoleColor color)
         {
-            GraphicData = new PixelData[1, 1] { { new PixelData(sign, color) } };
+            GraphicData = new[,] { { new PixelData(sign, color) } };
         }
     }
 }

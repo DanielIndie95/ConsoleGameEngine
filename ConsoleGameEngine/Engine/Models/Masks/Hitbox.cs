@@ -1,4 +1,5 @@
-﻿using ConsoleGameEngine.Models;
+﻿using System;
+using ConsoleGameEngine.Screen.Models;
 
 namespace ConsoleGameEngine.Engine.Models.Masks
 {
@@ -9,7 +10,7 @@ namespace ConsoleGameEngine.Engine.Models.Masks
         private int _x;
         private int _y;
 
-        public Hitbox(int width = 1, int height = 1, int x = 0, int y = 0) : base()
+        public Hitbox(int width = 1, int height = 1, int x = 0, int y = 0)
         {
             _width = width;
             _height = height;
@@ -34,6 +35,8 @@ namespace ConsoleGameEngine.Engine.Models.Masks
         protected virtual bool CollideWithHitBox(Mask mask)
         {
             Hitbox other = mask as Hitbox;
+            if (other == null)
+                throw new Exception("mask was not in the correct type");
             return Parent.X + _x + _width > other._x + other.Parent.X
                 && Parent.Y + _y + _height > other._y + other.Parent.Y
                 && Parent.X + _x < other._x + other.Parent.X + other._width

@@ -13,11 +13,11 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
         private PixelData[,] GetBorder(int width, int height, ConsoleColor color, char blank)
         {
             PixelData[,] border = new PixelData[height, width];
-            char sign = blank;
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
+                    char sign;
                     if (row == 0 || row == height - 1)
                     {
                         sign = '-';

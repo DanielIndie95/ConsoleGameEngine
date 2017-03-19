@@ -8,9 +8,9 @@ namespace ConsoleGameEngine.Engine
     {
         public int Layers => _entities.Max(en => en.Layer);
 
-        private List<Entity> _entities;
+        private readonly List<Entity> _entities;
 
-        public GameWorld()
+        protected GameWorld()
         {
             _entities = new List<Entity>();
 

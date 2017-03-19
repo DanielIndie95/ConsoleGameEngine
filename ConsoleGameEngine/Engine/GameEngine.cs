@@ -1,6 +1,8 @@
 ﻿using ConsoleGameEngine.Engine.Models;
 using System;
+using System.Diagnostics;
 using System.Threading;
+using ConsoleGameEngine.Screen;
 
 namespace ConsoleGameEngine.Engine
 {
@@ -30,6 +32,7 @@ namespace ConsoleGameEngine.Engine
         }
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public TimeSpan Elapsed { get; private set; }
 
         /// <summary>
         /// 
@@ -58,11 +61,16 @@ namespace ConsoleGameEngine.Engine
         {
             _exit = false;
             Begin();
+            Elapsed = TimeSpan.FromMilliseconds(1000 / Fps); // start is the expected fps;
+            Stopwatch stopper = new Stopwatch();
             while (!_exit)
             {
+                stopper.Start();
                 if (World != null)
                     Cycle();
                 Thread.Sleep(1000 / Fps);
+                Elapsed = stopper.Elapsed;
+                stopper.Restart();
             }
         }
         public virtual void Begin()

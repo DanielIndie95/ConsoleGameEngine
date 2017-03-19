@@ -9,7 +9,7 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
 
         private PixelData[][,] _frames;
         private int _frame;
-        private int _fps;
+        private readonly int _fps;
         private Timer _timer;
 
         internal Animation(PixelData[][,] frames, int fps, bool start) : base(frames[0])
@@ -22,7 +22,8 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
                 Start();
             }
         }
-        internal Animation(int fps, bool start) : base()
+
+        internal Animation(int fps, bool start)
         {
             _frame = 0;
             _fps = fps;

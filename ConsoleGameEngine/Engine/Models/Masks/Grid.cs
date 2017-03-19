@@ -1,19 +1,18 @@
-﻿using ConsoleGameEngine.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using ConsoleGameEngine.Screen.Models;
 
 namespace ConsoleGameEngine.Engine.Models.Masks
 {
     public class Grid : Hitbox
     {
-        private bool[,] _collisionTable;
-        private List<Point> _collisionPoints;
-        private int _tileWidth;
-        private int _tileHeight;
+        private readonly bool[,] _collisionTable;
+        private readonly List<Point> _collisionPoints;
+        private readonly int _tileWidth;
+        private readonly int _tileHeight;
 
-        public Grid(int width, int height, int tileWidth, int tileHeight) : base()
+        public Grid(int width, int height, int tileWidth, int tileHeight)
         {
             _collisionTable = new bool[width, height];
             _tileWidth = tileWidth;
@@ -59,7 +58,7 @@ namespace ConsoleGameEngine.Engine.Models.Masks
                 string[] cols = rows[row].Split(new[] { colSeperator }, StringSplitOptions.RemoveEmptyEntries);
                 for (int col = 0; col < cols.Length; col++)
                 {
-                    bool solid = int.Parse(cols[col]) != 0 ? true : false;
+                    bool solid = int.Parse(cols[col]) != 0;
                     SetTile(col, row, solid);
                 }
             }
@@ -109,7 +108,7 @@ namespace ConsoleGameEngine.Engine.Models.Masks
             int col = physicalX / _tileWidth;
             int row = physicalY / _tileHeight;
 
-            return GetTile(col, col);
+            return GetTile(col, row);
         }
 
         private List<Point> GetTilesFromRect(int physicalX, int physicalY, int width, int height)

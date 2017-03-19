@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ConsoleGameEngine.Engine.Models
 {
     public class GameInput
     {
         private ConsoleKeyInfo InputInfo { get; }
-        private static Dictionary<string, ConsoleKey[]> _definitions;
+        private static readonly Dictionary<string, ConsoleKey[]> Definitions;
 
         public ConsoleKey Key => InputInfo.Key;
         public ConsoleModifiers Modifiers => InputInfo.Modifiers;
@@ -24,12 +23,12 @@ namespace ConsoleGameEngine.Engine.Models
         }
         static GameInput()
         {
-            _definitions = new Dictionary<string, ConsoleKey[]>();
+            Definitions = new Dictionary<string, ConsoleKey[]>();
         }
 
         public bool Check(string key)
         {
-            bool containsDefinition = _definitions.TryGetValue(key, out ConsoleKey[] options);
+            bool containsDefinition = Definitions.TryGetValue(key, out ConsoleKey[] options);
             if (!containsDefinition)
                 return false;
             return options.Contains(Key);
@@ -41,7 +40,7 @@ namespace ConsoleGameEngine.Engine.Models
 
         public static void Define(string key, params ConsoleKey[] inputs)
         {
-            _definitions.Add(key, inputs);
+            Definitions.Add(key, inputs);
         }
     }
 }

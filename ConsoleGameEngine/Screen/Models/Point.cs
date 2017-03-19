@@ -1,4 +1,4 @@
-﻿namespace ConsoleGameEngine.Models
+﻿namespace ConsoleGameEngine.Screen.Models
 {
     public struct Point
     {

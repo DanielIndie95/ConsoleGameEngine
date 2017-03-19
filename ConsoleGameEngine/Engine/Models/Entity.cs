@@ -1,8 +1,6 @@
 ﻿using ConsoleGameEngine.Engine.Models.Masks;
-using ConsoleGameEngine.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using ConsoleGameEngine.Screen;
 
 namespace ConsoleGameEngine.Engine.Models
 {

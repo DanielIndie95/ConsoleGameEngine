@@ -1,7 +1,6 @@
-﻿using ConsoleGameEngine.Models;
-using ConsoleGameEngine.Screen.Models;
+﻿using ConsoleGameEngine.Screen.Models;
 
-namespace ConsoleGameEngine
+namespace ConsoleGameEngine.Screen
 {
     public interface IDrawableScreen
     {

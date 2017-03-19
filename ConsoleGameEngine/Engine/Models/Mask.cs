@@ -1,7 +1,6 @@
-﻿using ConsoleGameEngine.Engine.Models.Masks;
-using ConsoleGameEngine.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using ConsoleGameEngine.Screen.Models;
 
 namespace ConsoleGameEngine.Engine.Models
 {
@@ -9,7 +8,8 @@ namespace ConsoleGameEngine.Engine.Models
     {
         public Entity Parent;
         Dictionary<Type, Func<Mask, bool>> _collisionAlgorithemOptions;
-        public Mask(Entity entity)
+
+        protected Mask(Entity entity)
         {
             Parent = entity;
             InitDictionary();
@@ -23,7 +23,7 @@ namespace ConsoleGameEngine.Engine.Models
             };
         }
 
-        public Mask()
+        protected Mask()
         {
             InitDictionary();
         }
@@ -43,22 +43,20 @@ namespace ConsoleGameEngine.Engine.Models
         {
             if (other == null || !other.Parent.Collidable || !Parent.Collidable)
                 return false;
-            if (_collisionAlgorithemOptions.TryGetValue(other.GetType(), out Func<Mask, bool> CollisionFunc))
+            if (_collisionAlgorithemOptions.TryGetValue(other.GetType(), out Func<Mask, bool> collisionFunc))
             {
-                return CollisionFunc(other);
+                return collisionFunc(other);
             }
-            else if (other._collisionAlgorithemOptions.TryGetValue(GetType(), out Func<Mask, bool> OtherCollisionFunc))
+            if (other._collisionAlgorithemOptions.TryGetValue(GetType(), out Func<Mask, bool> otherCollisionFunc))
             {
-                return OtherCollisionFunc(this);
+                return otherCollisionFunc(this);
             }
             return _collisionAlgorithemOptions[typeof(Mask)](other);
         }
 
         public bool Collide(Point point)
         {
-            if (!Parent.Collidable)
-                return false;
-            return CollideWithPoint(point);
+            return Parent.Collidable && CollideWithPoint(point);
         }
 
         protected virtual bool CollideWithMask(Mask other)

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 using ConsoleGameEngine.Screen.Models;
 using System.Drawing.Drawing2D;
@@ -40,7 +38,7 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
             return data;
         }
 
-        private ConsoleColor ClosestConsoleColor(byte r, byte g, byte b)
+        /*private ConsoleColor ClosestConsoleColor(byte r, byte g, byte b)
         {
             ConsoleColor ret = 0;
             double rr = r, gg = g, bb = b, delta = double.MaxValue;
@@ -59,7 +57,7 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
                 }
             }
             return ret;
-        }
+        }*/
 
         private ConsoleColor ClosestConsoleColor(Color color)
         {
@@ -67,7 +65,7 @@ namespace ConsoleGameEngine.Engine.Models.GraphicsModels
             index |= (color.R > 64) ? 4 : 0; // Red bit
             index |= (color.G > 64) ? 2 : 0; // Green bit
             index |= (color.B > 64) ? 1 : 0; // Blue bit
-            return (System.ConsoleColor)index;
+            return (ConsoleColor)index;
         }
 
     }

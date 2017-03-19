@@ -1,23 +1,22 @@
 ﻿using System;
-using ConsoleGameEngine.Models;
 using ConsoleGameEngine.Screen.Models;
 
-namespace ConsoleGameEngine
+namespace ConsoleGameEngine.Screen
 {
     public class BasicConsoleScreen : IDrawableScreen
     {
         protected PixelData[,] PixelsScreen;
-        private int _height;
-        private int _width;
+        private readonly int _height;
+        private readonly int _width;
         protected PixelData DefaultEntity { get; set; }
-        Action _drawFunc;
+        readonly Action _drawFunc;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        /// <param name="blackAndWhiteMode">Black and white is much faster</param>
+        /// <param name="blackAndWhiteMode">Black and white is faster</param>
         public BasicConsoleScreen(int width, int height, bool blackAndWhiteMode = true)
         {
             PixelsScreen = new PixelData[height, width];
@@ -116,10 +115,6 @@ namespace ConsoleGameEngine
         private bool PointOutOfBound(int x, int y)
         {
             return x < 0 || x >= _width || y < 0 || y >= _height;
-        }
-        private bool PointOutOfBound(Point position)
-        {
-            return PointOutOfBound(position.X, position.Y);
         }
 
         public virtual void ClearScreen()
