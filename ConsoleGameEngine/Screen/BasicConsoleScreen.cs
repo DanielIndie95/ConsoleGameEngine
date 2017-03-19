@@ -9,7 +9,7 @@ namespace ConsoleGameEngine.Screen
         private readonly int _height;
         private readonly int _width;
         protected PixelData DefaultEntity { get; set; }
-        readonly Action _drawFunc;
+        private readonly Action _drawFunc;
 
         /// <summary>
         /// 
@@ -52,9 +52,9 @@ namespace ConsoleGameEngine.Screen
         }
 
         /// <summary>
-        /// This is much slower
+        /// This is slower
         /// </summary>
-        public void DrawColor()
+        public void DrawColor() //batch writing for performance improvment
         {
             int x = 1;
             PixelData lastPixel = PixelsScreen[0, 0];
@@ -85,17 +85,13 @@ namespace ConsoleGameEngine.Screen
 
         private void DrawBatch(string batch, PixelData lastPixel)
         {
-            var oldForColor = Console.ForegroundColor;
-            var oldBackColor = Console.BackgroundColor;
-
             if (lastPixel.IsForground)
                 Console.ForegroundColor = lastPixel.Color;
             else
                 Console.BackgroundColor = lastPixel.Color;
 
             Console.Write(batch);
-            Console.ForegroundColor = oldForColor;
-            Console.BackgroundColor = oldBackColor;
+            Console.ResetColor();
         }
         protected virtual void DrawPixel(PixelData pixel)
         {
@@ -107,6 +103,7 @@ namespace ConsoleGameEngine.Screen
             if (!PointOutOfBound(x, y))
                 PixelsScreen[y, x] = pixel;
         }
+
         public void SetPixel(PixelData pixel, Point position)
         {
             SetPixel(pixel, position.X, position.Y);
