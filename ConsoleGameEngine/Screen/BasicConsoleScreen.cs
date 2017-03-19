@@ -57,15 +57,50 @@ namespace ConsoleGameEngine
         /// </summary>
         public void DrawColor()
         {
+            int x = 1;
+            PixelData lastPixel = PixelsScreen[0, 0];
+            string batch = lastPixel.Character + "";
             Console.SetCursorPosition(0, 0);
             for (int y = 0; y < _height; y++)
             {
-                for (int x = 0; x < _width; x++)
+                for (; x < _width; x++)
                 {
-                    DrawPixel(PixelsScreen[y, x], x, y);
+                    PixelData pixel = PixelsScreen[y, x];
+                    if (pixel.Color == lastPixel.Color && pixel.IsForground == lastPixel.IsForground)
+                    {
+                        batch += pixel.Character;
+                    }
+                    else
+                    {
+                        DrawBatch(batch, lastPixel);
+                        batch = pixel.Character + "";
+                    }
+                    lastPixel = pixel;
                 }
-                Console.Write(Environment.NewLine);
+                batch += Environment.NewLine;
+                x = 0;
             }
+            DrawBatch(batch, lastPixel);
+
+        }
+
+        private void DrawBatch(string batch, PixelData lastPixel)
+        {
+            var oldForColor = Console.ForegroundColor;
+            var oldBackColor = Console.BackgroundColor;
+
+            if (lastPixel.IsForground)
+                Console.ForegroundColor = lastPixel.Color;
+            else
+                Console.BackgroundColor = lastPixel.Color;
+
+            Console.Write(batch);
+            Console.ForegroundColor = oldForColor;
+            Console.BackgroundColor = oldBackColor;
+        }
+        protected virtual void DrawPixel(PixelData pixel)
+        {
+            DrawBatch(pixel.Character + "", pixel);
         }
 
         public void SetPixel(PixelData pixel, int x, int y)
@@ -98,20 +133,7 @@ namespace ConsoleGameEngine
             }
         }
 
-        protected virtual void DrawPixel(PixelData pixel, int x, int y)
-        {
-            var oldForColor = Console.ForegroundColor;
-            var oldBackColor = Console.BackgroundColor;
 
-            if (pixel.IsForground)
-                Console.ForegroundColor = pixel.Color;
-            else
-                Console.BackgroundColor = pixel.Color;
-
-            Console.Write(pixel.Character);
-            Console.ForegroundColor = oldForColor;
-            Console.BackgroundColor = oldBackColor;
-        }
 
         private void InitiallizeScreenWithDefaults()
         {
